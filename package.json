@@ -1,0 +1,22 @@
+{
+  "name": "ticketgenerator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "barc": "0.0.4",
+    "canvas": "^1.6.3",
+    "csv": "^1.1.1",
+    "csv-generate": "^1.0.0",
+    "json2csv": "^3.7.3",
+    "minimist": "^1.2.0",
+    "qrcode": "^0.6.0",
+    "readdirp": "^2.1.0",
+    "writefile": "^0.2.8"
+  }
+}
