@@ -8,13 +8,13 @@ const path = require('path');
 const writefile = require('writefile');
 const readdirp = require('readdirp');
 
-var template_path = path.join(__dirname, '/vip.png');
+var template_path = path.join(__dirname, '/ga.png');
 var barcodes_path = path.join(__dirname, '/tickets/barcodes');
 var tickets_path = path.join(__dirname, '/tickets');
 
 
 
-var prefix = "C17VIP";
+var prefix = "GA";
 var prefix_delim = "";
 
 
@@ -26,6 +26,25 @@ var items_per_page = 8;
 
 var bulkWidth = (items_per_page / 2) * ticket_width;
 var bulkHeight = ticket_height * 2;
+
+// QR
+// x 435.00 - 550.00
+// y 1037.00 - 1152.00
+// stub
+// x 448.00 - 563.00
+// y 1493.00 - 1608.00
+
+
+// text
+// ticket
+// x 242.00 - 419.00 px
+// y 1037.00 - 1152.00
+// stub
+// x 265.00 - 442.00
+// y 1493.00 - 1608.00
+// 1550.50
+
+
 
 
 const default_options = {
@@ -57,7 +76,7 @@ if (_options._.length === 0) {
     for (var _index in _options._) {
         if (_options._.hasOwnProperty(_index)) {
             var command = _options._[_index]
-            console.log(command);
+            // console.log(command);
             runCommand(command)
         }
     }
@@ -68,9 +87,40 @@ function runCommand(command = '') {
 
     switch (command) {
         case 'gen':
+            const count = _options.count
+            generate({
+
+                amount: count,
+
+                templatePath: template_path,
+                ticket_width: 600,
+                ticket_height: 1650,
+
+                barcode1X: 492.50,
+                barcode1Y: 1094.50 + 48,
+                barcode1Width: 435.00 - 550.00,
+                barcode1Height: 1037.00 - 1152.00,
+
+                barcode2X: 505.50,
+                barcode2Y: 1550.50 + 48,
+                barcode2Width: 448.00 - 563.00,
+                barcode2Height: 1493.00 - 1608.00,
+
+                bulkWidth: 5100,
+                bulkHeight: 3300,
+
+                barcodesPath: barcodes_path,
+                ticketsPath: tickets_path,
+
+            });
+
+            break;
+        case 'bulk':
+            bulk();
 
             break;
         default:
+        
             console.log('-***************-');
             console.log('Ticket Generator');
             console.log('-***************-');
@@ -81,10 +131,14 @@ function runCommand(command = '') {
 
             console.log('  -  Required: ');
 
+            console.log('         --count {number} ');
+
+            console.log('  -  Default: ');
+
             console.log('         --template_path template.png DEFAULT: "./ticket.png" ');
 
-            console.log('         --ticket_width 600 (in pixels) DEFAULT: ');
-            console.log('         --ticket_height 1650 (in pixels) DEFAULT: ');
+            console.log('         --ticket_width 600 (in pixels) DEFAULT: "600"');
+            console.log('         --ticket_height 1650 (in pixels) DEFAULT: ""');
 
             console.log('         --barcode1X 200 (in pixels) DEFAULT: "200"');
             console.log('         --barcode1Y 200 (in pixels) DEFAULT: "200"');
@@ -150,9 +204,9 @@ function bulk() {
             for (var i = 1; i < pagesCount + 1; i++) {
                 if (i == pagesCount) {
                     // console.log('max', i);
-                    // genBulkPages(i, items_per_page, lastPageItemsCount)
+                    genBulkPages(i, items_per_page, lastPageItemsCount)
                 } else {
-                    // genBulkPages(i, items_per_page)
+                    genBulkPages(i, items_per_page)
                 }
             }
 
@@ -248,48 +302,7 @@ function genPage(items = [], pageNumber) {
 
 
 
-// QR
-// x 435.00 - 550.00
-// y 1037.00 - 1152.00
-// stub
-// x 448.00 - 563.00
-// y 1493.00 - 1608.00
 
-
-// text
-// ticket
-// x 242.00 - 419.00 px
-// y 1037.00 - 1152.00
-// stub
-// x 265.00 - 442.00
-// y 1493.00 - 1608.00
-// 1550.50
-
-// generate({
-//
-//     amount: 10,
-//
-//     templatePath: template_path,
-//     ticket_width: 600,
-//     ticket_height: 1650,
-//
-//     barcode1X: 492.50,
-//     barcode1Y: 1094.50 + 48,
-//     barcode1Width: 435.00 - 550.00,
-//     barcode1Height: 1037.00 - 1152.00,
-//
-//     barcode2X: 505.50,
-//     barcode2Y: 1550.50 + 48,
-//     barcode2Width: 448.00 - 563.00,
-//     barcode2Height: 1493.00 - 1608.00,
-//
-//     bulkWidth: 5100,
-//     bulkHeight: 3300,
-//
-//     barcodesPath: barcodes_path,
-//     ticketsPath: tickets_path,
-//
-// });
 
 
 
